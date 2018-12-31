@@ -42,8 +42,8 @@ class MQTTSessionStream: NSObject {
         
         sessionQueue.async { [weak self] in
             let currentRunLoop = RunLoop.current
-            inputStream?.schedule(in: currentRunLoop, forMode: .defaultRunLoopMode)
-            outputStream?.schedule(in: currentRunLoop, forMode: .defaultRunLoopMode)
+            inputStream?.schedule(in: currentRunLoop, forMode: RunLoop.Mode.default)
+            outputStream?.schedule(in: currentRunLoop, forMode: RunLoop.Mode.default)
             inputStream?.open()
             outputStream?.open()
             if ssl {
@@ -63,9 +63,9 @@ class MQTTSessionStream: NSObject {
     deinit {
         delegate = nil
         inputStream?.close()
-        inputStream?.remove(from: .current, forMode: .defaultRunLoopMode)
+        inputStream?.remove(from: .current, forMode: RunLoop.Mode.default)
         outputStream?.close()
-        outputStream?.remove(from: .current, forMode: .defaultRunLoopMode)
+        outputStream?.remove(from: .current, forMode: RunLoop.Mode.default)
     }
     
     var write: StreamWriter? {
